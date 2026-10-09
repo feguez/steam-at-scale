@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "black"}, "id": "Action", "label": "Action", "shape": "dot", "title": "Action: 46,743 games", "value": 46743}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Strategy", "label": "Strategy", "shape": "dot", "title": "Strategy: 22,725 games", "value": 22725}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Simulation", "label": "Simulation", "shape": "dot", "title": "Simulation: 24,504 games", "value": 24504}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Casual", "label": "Casual", "shape": "dot", "title": "Casual: 50,886 games", "value": 50886}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Early Access", "label": "Early Access", "shape": "dot", "title": "Early Access: 11,324 games", "value": 11324}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Free To Play", "label": "Free To Play", "shape": "dot", "title": "Free To Play: 12,366 games", "value": 12366}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Racing", "label": "Racing", "shape": "dot", "title": "Racing: 4,117 games", "value": 4117}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Adventure", "label": "Adventure", "shape": "dot", "title": "Adventure: 45,726 games", "value": 45726}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Indie", "label": "Indie", "shape": "dot", "title": "Indie: 81,746 games", "value": 81746}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "Sports", "label": "Sports", "shape": "dot", "title": "Sports: 4,925 games", "value": 4925}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "RPG", "label": "RPG", "shape": "dot", "title": "RPG: 21,259 games", "value": 21259}]);
+                  edges = new vis.DataSet([{"from": "Casual", "title": "38,926 shared games", "to": "Indie", "value": 38926}, {"from": "Action", "title": "35,223 shared games", "to": "Indie", "value": 35223}, {"from": "Adventure", "title": "34,601 shared games", "to": "Indie", "value": 34601}, {"from": "Action", "title": "21,238 shared games", "to": "Adventure", "value": 21238}, {"from": "Adventure", "title": "17,923 shared games", "to": "Casual", "value": 17923}, {"from": "Indie", "title": "17,215 shared games", "to": "Simulation", "value": 17215}, {"from": "Indie", "title": "16,156 shared games", "to": "Strategy", "value": 16156}, {"from": "Action", "title": "15,594 shared games", "to": "Casual", "value": 15594}, {"from": "Indie", "title": "15,306 shared games", "to": "RPG", "value": 15306}, {"from": "Casual", "title": "12,662 shared games", "to": "Simulation", "value": 12662}, {"from": "Adventure", "title": "12,064 shared games", "to": "RPG", "value": 12064}, {"from": "Casual", "title": "10,630 shared games", "to": "Strategy", "value": 10630}, {"from": "Early Access", "title": "8,606 shared games", "to": "Indie", "value": 8606}, {"from": "Action", "title": "8,475 shared games", "to": "RPG", "value": 8475}, {"from": "Free To Play", "title": "8,286 shared games", "to": "Indie", "value": 8286}, {"from": "Adventure", "title": "8,087 shared games", "to": "Simulation", "value": 8087}, {"from": "Simulation", "title": "7,369 shared games", "to": "Strategy", "value": 7369}, {"from": "Casual", "title": "7,084 shared games", "to": "RPG", "value": 7084}, {"from": "Adventure", "title": "6,664 shared games", "to": "Strategy", "value": 6664}, {"from": "Action", "title": "6,621 shared games", "to": "Simulation", "value": 6621}, {"from": "Action", "title": "6,426 shared games", "to": "Strategy", "value": 6426}, {"from": "Action", "title": "5,865 shared games", "to": "Early Access", "value": 5865}, {"from": "RPG", "title": "5,715 shared games", "to": "Strategy", "value": 5715}, {"from": "Casual", "title": "5,667 shared games", "to": "Free To Play", "value": 5667}, {"from": "Action", "title": "4,998 shared games", "to": "Free To Play", "value": 4998}, {"from": "RPG", "title": "4,666 shared games", "to": "Simulation", "value": 4666}, {"from": "Adventure", "title": "4,415 shared games", "to": "Free To Play", "value": 4415}, {"from": "Adventure", "title": "4,152 shared games", "to": "Early Access", "value": 4152}, {"from": "Casual", "title": "4,089 shared games", "to": "Early Access", "value": 4089}, {"from": "Early Access", "title": "3,202 shared games", "to": "Simulation", "value": 3202}, {"from": "Indie", "title": "3,201 shared games", "to": "Sports", "value": 3201}, {"from": "Indie", "title": "2,843 shared games", "to": "Racing", "value": 2843}, {"from": "Early Access", "title": "2,836 shared games", "to": "Strategy", "value": 2836}, {"from": "Early Access", "title": "2,815 shared games", "to": "RPG", "value": 2815}, {"from": "Casual", "title": "2,636 shared games", "to": "Sports", "value": 2636}, {"from": "Simulation", "title": "2,574 shared games", "to": "Sports", "value": 2574}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

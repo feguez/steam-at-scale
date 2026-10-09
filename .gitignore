@@ -1,0 +1,14 @@
+# Raw and processed datasets
+data/raw/
+data/processed/*.parquet
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
