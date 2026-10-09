@@ -58,21 +58,23 @@ The full pipeline has been developed and validated locally on a 236,652-review d
 
 Current work includes:
 
-\- lazy Polars processing
 
-\- review feature engineering
 
-\- game metadata cleaning
+\- Lazy Polars processing
 
-\- review-to-game joins
+\- Review feature engineering
 
-\- lifecycle feature engineering
+\- Game metadata cleaning
 
-\- game-level and monthly aggregations
+\- Review-to-game joins
 
-\- genre normalization and co-occurrence analysis
+\- Lifecycle feature engineering
 
-\- interactive genre network visualization
+\- Game-level and monthly aggregations
+
+\- Genre normalization and co-occurrence analysis
+
+\- Interactive genre network visualization
 
 
 
